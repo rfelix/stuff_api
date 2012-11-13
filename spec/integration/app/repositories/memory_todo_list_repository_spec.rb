@@ -17,4 +17,18 @@ describe MemoryTodoListRepository do
       todo_lists.last.title.should eq('Todo List 2')
     end
   end
+
+  describe '#find_by_id' do
+    it 'finds the existing todo list by id' do
+      todo_list1 = TodoList.new(title: 'Todo List 1')
+      todo_list_repository = MemoryTodoListRepository.new(true)
+
+      todo_list_repository.create todo_list1
+
+      found_item = todo_list_repository.find_by_id(todo_list1.id)
+
+      found_item.should_not be_nil
+      found_item.title.should eq('Todo List 1')
+    end
+  end
 end

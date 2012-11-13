@@ -5,8 +5,23 @@ StuffServer.controller provides: :json do
   end
 
   get :root, map: '/' do
-    todo_list_lister = TodoListLister.new(todo_list_repository: MemoryTodoListRepository.new)
+    todo_list_lister = TodoListLister.new(todo_list_repository: todo_list_repository)
+    todo_lists = todo_list_lister.list_all(@user)
 
-    render 'root', locals: {list_items: todo_list_lister.list_all(@user) }
+    render 'collection', locals: {list_items: todo_lists}
+  end
+
+  get :todo_list, map: '/list/:id' do
+    todo_lister = TodoLister.new(todo_list_repository: todo_list_repository)
+    todo_list_id = params[:id].to_i
+    todo_items = todo_lister.list_all(@user, todo_list_id)
+
+    render 'list/collection', locals: {todo_items: todo_items}
+  end
+
+  helpers do
+    def todo_list_repository
+      @todo_list_repository ||= MemoryTodoListRepository.singleton
+    end
   end
 end

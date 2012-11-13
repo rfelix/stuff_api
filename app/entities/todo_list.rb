@@ -1,10 +1,14 @@
 class TodoList
-  include DynamicallyUpdatableAttributes
+  include Entity
 
-  attr_accessor :id
   attr_accessor :title
+  attr_reader :todos
 
-  def initialize(attributes = {})
-    dynamically_update_attributes attributes
+  def post_initialize(attributes)
+    @todos ||= []
+  end
+
+  def add(new_todo)
+    @todos << new_todo
   end
 end

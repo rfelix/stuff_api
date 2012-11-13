@@ -1,6 +1,6 @@
 require 'acceptance_spec_helper'
 
-describe 'Stuff API Root' do
+describe 'When obtaining the API root' do
   When { api_root_visited }
 
   #Then { show_me_the_json }
@@ -13,15 +13,7 @@ describe 'Stuff API Root' do
     get '/'
   end
 
-  def collection_href
-    parsed_json['collection']['href']
-  end
-
   def available_list_titles
     parsed_json['collection']['items'].map { |item| item['title'] }
-  end
-
-  def parsed_json
-    JSON.parse(last_response.body)
   end
 end

@@ -3,10 +3,18 @@ class MemoryTodoListRepository
   attr_reader :records
 
   public
+  def self.singleton
+    @repository ||= self.new
+  end
+
   def initialize(skip_record_initialization = false)
     @id_counter = 0
     @records = {}
     initialize_default_records if !skip_record_initialization
+  end
+
+  def find_by_id(id)
+    records[id]
   end
 
   def create(obj)
@@ -24,15 +32,14 @@ class MemoryTodoListRepository
   private
   def store(obj)
     obj.id ||= (@id_counter += 1)
-    @records[obj.id] = obj
+    @records[obj.id] = obj.dup
   end
 
   def initialize_default_records
     # This needs to be done because this is a memory repository. If it were
     # persisted this step would be done before booting up the application
     %w(Inbox Today Next).each do |title|
-      store TodoList.new title: title
-
+      store TodoList.new(title: title)
     end
   end
 end
