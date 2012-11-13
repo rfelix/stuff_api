@@ -43,6 +43,7 @@ Padrino.after_load do
   Padrino.require_dependencies Padrino.root('app/entities/**/*.rb')
   Padrino.require_dependencies Padrino.root('app/repositories/**/*.rb')
   Padrino.require_dependencies Padrino.root('app/interactors/**/*.rb')
+  Padrino.require_dependencies Padrino.root('app/presenters/**/*.rb')
 end
 
 Padrino.load!

@@ -9,10 +9,11 @@ describe 'When listing a Todo List' do
   Then { show_me_the_json }
   Then { collection_href.should eq(last_request.url) }
   Then { existing_todos_can_be_seen }
+  Then { todo_has_full_representation }
 
   def existing_todos_in_inbox
     inbox_list = todo_list_repository.list_all.find { |todo_list| todo_list.title == 'Inbox' }
-    @existing_todos = [Todo.new(title: 'Build Hypermedia API')]
+    @existing_todos = [Todo.new(title: 'Build Hypermedia API', notes: 'Test', due_date: Date.new(2012, 11, 15))]
     @existing_todos.each do |new_todo|
       inbox_list.add new_todo
     end
@@ -33,5 +34,14 @@ describe 'When listing a Todo List' do
     }
 
     all_items_available.should be_true
+  end
+
+  def todo_has_full_representation
+    expected = TodoPresenter.new(@existing_todos.first)
+    current = parsed_json['collection']['items'].find { |todo| todo['title'] == expected.title }
+
+    current['title'].should eq(expected.title)
+    current['notes'].should eq(expected.notes)
+    current['dueDate'].should eq(expected.due_date)
   end
 end

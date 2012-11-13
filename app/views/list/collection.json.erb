@@ -3,7 +3,7 @@
     "href": "<%= uri(url_for(:todo_list, id: '1')) %>",
     "items": [<%=
       todo_items.map { |todo_item|
-        partial 'todo/todo_item', object: todo_item
+        partial 'todo/todo_item', object: TodoPresenter.new(todo_item)
       }.join(',')
     %>]
   }
