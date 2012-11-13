@@ -8,8 +8,7 @@ describe 'When listing a Todo List' do
 
   Then { show_me_the_json }
   Then { collection_href.should eq(last_request.url) }
-  Then { existing_todos_can_be_seen }
-  Then { todo_has_full_representation }
+  Then { all_todos_should_be_listed }
 
   def existing_todos_in_inbox
     inbox_list = todo_list_repository.list_all.find { |todo_list| todo_list.title == 'Inbox' }
@@ -26,22 +25,21 @@ describe 'When listing a Todo List' do
     get inbox_item['href']
   end
 
-  def existing_todos_can_be_seen
-    all_items_available = @existing_todos.all? { |existing_todo|
+  def all_todos_should_be_listed
+    all_todos_available = @existing_todos.all? { |existing_todo|
       parsed_json['collection']['items'].find { |todo_representation|
-        todo_representation['title'] == existing_todo.title
+        todo_representation['title'] == existing_todo.title &&
+          representation_same_as_todo?(todo_representation, existing_todo)
       }
     }
 
-    all_items_available.should be_true
+    all_todos_available.should be_true
   end
 
-  def todo_has_full_representation
-    expected = TodoPresenter.new(@existing_todos.first)
-    current = parsed_json['collection']['items'].find { |todo| todo['title'] == expected.title }
-
-    current['title'].should eq(expected.title)
-    current['notes'].should eq(expected.notes)
-    current['dueDate'].should eq(expected.due_date)
+  def representation_same_as_todo?(representation, todo)
+    todo = TodoPresenter.new(todo)
+    representation['title'].should eq(todo.title)
+    representation['notes'].should eq(todo.notes)
+    representation['dueDate'].should eq(todo.due_date)
   end
 end
