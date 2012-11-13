@@ -4,7 +4,7 @@ describe 'When listing a Todo List' do
   Given(:todo_list_repository) { StuffServer.in_memory_todo_list_repository}
   Given { existing_todos_in_inbox }
 
-  When { inbox_todo_list_href_is_followed }
+  When { item_href_is_visited { |item| item['title'] == 'Inbox' } }
 
   Then { show_me_the_json }
   Then { collection_href.should eq(last_request.url) }
@@ -17,12 +17,6 @@ describe 'When listing a Todo List' do
       inbox_list.add new_todo
     end
     todo_list_repository.update inbox_list
-  end
-
-  def inbox_todo_list_href_is_followed
-    get '/'
-    inbox_item = parsed_json['collection']['items'].find { |item| item['title'] == 'Inbox' }
-    get inbox_item['href']
   end
 
   def all_todos_should_be_listed
