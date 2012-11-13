@@ -1,0 +1,11 @@
+{
+  "collection": {
+    "href": "<%= uri(url_for(:root)) %>",
+    "items": [<%=
+      list_items.map { |list_item|
+        partial 'list/list_item', object: list_item
+      }.join(',')
+    %>]
+  }
+}
+
