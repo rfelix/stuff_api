@@ -21,7 +21,7 @@ StuffServer.controller provides: :json do
 
   helpers do
     def todo_list_repository
-      @todo_list_repository ||= MemoryTodoListRepository.singleton
+      StuffServer.in_memory_todo_list_repository
     end
   end
 end

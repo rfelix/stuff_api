@@ -5,6 +5,10 @@ class StuffServer < Padrino::Application
 
   enable :sessions
 
+  def self.in_memory_todo_list_repository
+    @todo_list_repository ||= MemoryTodoListRepository.new
+  end
+
   ##
   # Caching support
   #

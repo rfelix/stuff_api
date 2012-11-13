@@ -1,7 +1,7 @@
 require 'acceptance_spec_helper'
 
 describe 'When listing a Todo List' do
-  Given(:todo_list_repository) { MemoryTodoListRepository.singleton }
+  Given(:todo_list_repository) { StuffServer.in_memory_todo_list_repository}
   Given { existing_todos_in_inbox }
 
   When { inbox_todo_list_href_is_followed }

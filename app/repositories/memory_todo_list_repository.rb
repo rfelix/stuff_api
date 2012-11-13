@@ -3,10 +3,6 @@ class MemoryTodoListRepository
   attr_reader :records
 
   public
-  def self.singleton
-    @repository ||= self.new
-  end
-
   def initialize(skip_record_initialization = false)
     @id_counter = 0
     @records = {}
