@@ -4,36 +4,25 @@ describe 'When listing a Todo List' do
   Given(:todo_list_repository) { StuffServer.in_memory_todo_list_repository}
   Given { existing_todos_in_inbox }
 
-  When { item_href_is_visited { |item| item['title'] == 'Inbox' } }
+  When { item_href_is_visited('title' => 'Inbox') }
 
-  Then { show_me_the_json }
-  Then { collection_href.should eq(last_request.url) }
+  Then { parsed_collection.href.should eq(last_request.url) }
   Then { all_todos_should_be_listed }
-
-  def existing_todos_in_inbox
-    inbox_list = todo_list_repository.list_all.find { |todo_list| todo_list.title == 'Inbox' }
-    @existing_todos = [Todo.new(title: 'Build Hypermedia API', notes: 'Test', due_date: Date.new(2012, 11, 15))]
-    @existing_todos.each do |new_todo|
-      inbox_list.add new_todo
-    end
-    todo_list_repository.update inbox_list
-  end
 
   def all_todos_should_be_listed
     all_todos_available = @existing_todos.all? { |existing_todo|
-      parsed_json['collection']['items'].find { |todo_representation|
-        todo_representation['title'] == existing_todo.title &&
-          representation_same_as_todo?(todo_representation, existing_todo)
+      parsed_collection.items.find { |todo_item|
+        todo_item.data['title'].value == existing_todo.title && representation_same_as_todo?(todo_item, existing_todo)
       }
     }
 
     all_todos_available.should be_true
   end
 
-  def representation_same_as_todo?(representation, todo)
-    todo = TodoPresenter.new(todo)
-    representation['title'].should eq(todo.title)
-    representation['notes'].should eq(todo.notes)
-    representation['dueDate'].should eq(todo.due_date)
+  def representation_same_as_todo?(todo_item, todo_entity)
+    todo = TodoPresenter.new(todo_entity)
+    todo_item.data['title'].value.should eq(todo.title)
+    todo_item.data['notes'].value.should eq(todo.notes)
+    todo_item.data['dueDate'].value.should eq(todo.due_date)
   end
 end
