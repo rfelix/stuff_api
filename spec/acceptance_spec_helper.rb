@@ -5,6 +5,10 @@ require_relative 'steps'
 
 RSpec.configure do |conf|
   conf.include Rack::Test::Methods
+  conf.before(:each) {
+    # Clean out the memory repository
+    StuffServer.instance_variable_set(:@memory_todo_list_repository, nil)
+  }
 end
 
 def app
