@@ -1,9 +1,9 @@
 {
   "collection": {
-    "href": "<%= uri(url_for(:todo_list, id: '1')) %>",
+    "href": "<%= uri(url_for(:todo_list, id: todo_list_collection.list_id)) %>",
     "items": [<%=
-      todo_items.map { |todo_item|
-        partial 'todo/todo_item', object: TodoPresenter.new(todo_item)
+      todo_list_collection.todos.map { |todo_item|
+        partial 'todo/todo_item', object: todo_item
       }.join(',')
     %>]
   }

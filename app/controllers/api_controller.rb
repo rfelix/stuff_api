@@ -16,7 +16,8 @@ StuffServer.controller provides: :json do
     todo_list_id = params[:id].to_i
     todo_items = todo_lister.list_all(@user, todo_list_id)
 
-    render 'list/collection', locals: {todo_items: todo_items}
+    render 'list/collection', locals: {todo_list_collection: TodoListCollectionPresenter.new(todo_list_id, todo_items)}
+  end
   end
 
   helpers do

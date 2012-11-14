@@ -20,7 +20,7 @@ describe 'When listing a Todo List' do
   end
 
   def representation_same_as_todo?(todo_item, todo_entity)
-    todo = TodoPresenter.new(todo_entity)
+    todo = TodoPresenter.new(todo_entity, nil)
     todo_item.data['title'].value.should eq(todo.title)
     todo_item.data['notes'].value.should eq(todo.notes)
     todo_item.data['dueDate'].value.should eq(todo.due_date)
