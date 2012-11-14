@@ -39,6 +39,22 @@ describe CollectionJSON do
           data_field.prompt.should == 'Field'
         end
       end
+
+      context "when parsing item's links" do
+        let(:link) { item.links['item-link'] }
+
+        it 'parses the link rel' do
+          link.rel.should == 'item-link'
+        end
+
+        it 'parses the link href' do
+          link.href.should == 'http://item/link'
+        end
+
+        it 'parses the link prompt' do
+          link.prompt.should == 'Item Link'
+        end
+      end
     end
   end
 
@@ -56,6 +72,9 @@ describe CollectionJSON do
             "value": "field_value",
             "prompt": "Field"
           }
+        ],
+        "links": [
+          {"rel": "item-link", "href": "http://item/link", "prompt": "Item Link"}
         ]
       }
     ]

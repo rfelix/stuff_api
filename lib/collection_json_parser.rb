@@ -45,6 +45,15 @@ module CollectionJSON
       end
       @data
     end
+
+    def links
+      return @links unless @links.nil?
+      @links = {}
+      item['links'].each do |link|
+        @links[link['rel']] = Link.new(link)
+      end
+      @links
+    end
   end
 
   class DataField
@@ -66,6 +75,28 @@ module CollectionJSON
 
     def prompt
       @data_field['prompt']
+    end
+  end
+
+  class Link
+    private
+    attr_reader :link
+
+    public
+    def initialize(parsed_link)
+      @link = parsed_link
+    end
+
+    def rel
+      @link['rel']
+    end
+
+    def href
+      @link['href']
+    end
+
+    def prompt
+      @link['prompt']
     end
   end
 end
