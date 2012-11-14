@@ -1,0 +1,8 @@
+{
+  "collection": {
+    "href": "<%= uri(url_for(:todo_item, list_id: todo_item.list_id, id: todo_item.id)) %>",
+    "items": [<%=
+      partial 'todo/todo_item', object: todo_item
+    %>]
+  }
+}

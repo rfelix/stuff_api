@@ -1,4 +1,5 @@
 {
+  "href": "<%= uri(url_for(:todo_item, list_id: todo_item.list_id, id: todo_item.id)) %>",
   "data": [
     {"name": "title", "value": "<%= todo_item.title %>", "prompt": "Title"},
     {"name": "notes", "value": "<%= todo_item.notes %>", "prompt": "Notes"},

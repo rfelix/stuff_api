@@ -18,6 +18,14 @@ StuffServer.controller provides: :json do
 
     render 'list/collection', locals: {todo_list_collection: TodoListCollectionPresenter.new(todo_list_id, todo_items)}
   end
+
+  get :todo_item, map: '/list/:list_id/todo/:id' do
+    todo_lister = TodoLister.new(todo_list_repository: todo_list_repository)
+    todo_list_id = params[:list_id].to_i
+    todo_id = params[:id].to_i
+    todo_item = todo_lister.list_one(@user, todo_list_id, todo_id)
+
+    render 'todo/individual', locals: {todo_item: TodoPresenter.new(todo_item, todo_list_id)}
   end
 
   helpers do

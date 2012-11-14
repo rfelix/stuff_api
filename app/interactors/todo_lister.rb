@@ -11,4 +11,9 @@ class TodoLister
     todo_list = todo_list_repository.find_by_id(todo_list_id)
     todo_list.todos
   end
+
+  def list_one(user, todo_list_id, todo_id)
+    todo_list = todo_list_repository.find_by_id(todo_list_id)
+    todo_list.todo_by_id(todo_id)
+  end
 end

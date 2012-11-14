@@ -11,4 +11,8 @@ class TodoList
   def add(new_todo)
     @todos << new_todo
   end
+
+  def todo_by_id(todo_id)
+    todos.find { |todo| todo.id == todo_id }
+  end
 end
