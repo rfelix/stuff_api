@@ -21,8 +21,6 @@ def api_root_is_visited
 end
 
 def item_href_is_visited(match_options = {})
-  api_root_is_visited
-
   if match_options.empty?
     matched_item = parsed_collection.items.first
   else
@@ -30,6 +28,7 @@ def item_href_is_visited(match_options = {})
       match_options.all? { |field_name, value| item.data[field_name].value == value }
     }
   end
+  matched_item.should_not be_nil
   matched_item.href.should_not be_empty
   get matched_item.href
 end

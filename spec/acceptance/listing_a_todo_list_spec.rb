@@ -4,7 +4,7 @@ describe 'When listing a Todo List' do
   Given(:todo_list_repository) { StuffServer.in_memory_todo_list_repository}
   Given { existing_todos_in_inbox }
 
-  When { item_href_is_visited('title' => 'Inbox') }
+  When { api_root_is_visited and item_href_is_visited('title' => 'Inbox') }
 
   Then { parsed_collection.href.should eq(last_request.url) }
   Then { all_todos_should_be_listed }
