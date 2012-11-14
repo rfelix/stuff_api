@@ -1,0 +1,19 @@
+{
+  "collection": {
+    "href": "<%= uri(url_for(:move_todo, list_id: move_todo_lists.todo_list_id, id: move_todo_lists.todo_id)) %>",
+    "items": [<%=
+      move_todo_lists.todo_lists.map { |list_item|
+        partial 'list/list_item', object: list_item
+      }.join(',')
+      %>],
+    "template": {
+      "data": [
+        {
+          "name": "destination_uri",
+          "value": "<%= uri(url_for(:todo_list, id: move_todo_lists.todo_list_id)) %>",
+          "prompt": "Move To"
+        }
+      ]
+    }
+  }
+}
