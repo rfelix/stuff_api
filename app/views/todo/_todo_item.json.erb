@@ -2,6 +2,7 @@
   "href": "<%= uri(url_for(:todo_item, list_id: todo_item.list_id, id: todo_item.id)) %>",
   "data": [
     {"name": "title", "value": "<%= todo_item.title %>", "prompt": "Title"},
+    {"name": "completed", "value": <%= todo_item.completed %>, "prompt": "Completed"},
     {"name": "notes", "value": "<%= todo_item.notes %>", "prompt": "Notes"},
     {"name": "dueDate", "value": "<%= todo_item.due_date %>", "prompt": "Due Date"}
   ],

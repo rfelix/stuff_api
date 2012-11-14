@@ -15,4 +15,8 @@ class TodoPresenter
   def due_date
     @todo.due_date.strftime('%Y-%m-%d') if @todo.due_date
   end
+
+  def completed
+    !!@todo.completed # Force true/false
+  end
 end
