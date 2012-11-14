@@ -5,6 +5,7 @@ class MemoryTodoListRepository
   public
   def initialize(skip_record_initialization = false)
     @id_counter = 0
+    @todo_id_counter = 0
     @records = {}
     initialize_default_records if !skip_record_initialization
   end
@@ -29,6 +30,9 @@ class MemoryTodoListRepository
   def store(obj)
     obj.id ||= (@id_counter += 1)
     @records[obj.id] = obj.dup
+    obj.todos.each do |todo|
+      todo.id ||= (@todo_id_counter += 1)
+    end
   end
 
   def initialize_default_records

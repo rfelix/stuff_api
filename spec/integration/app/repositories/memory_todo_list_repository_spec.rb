@@ -31,4 +31,33 @@ describe MemoryTodoListRepository do
       found_item.title.should eq('Todo List 1')
     end
   end
+
+  describe '#create' do
+    it 'stores the todo list and gives it an identity' do
+      todo_list1 = TodoList.new(title: 'Todo List 1')
+      todo_list_repository = MemoryTodoListRepository.new(true)
+
+      todo_list_repository.create todo_list1
+
+      created_todo_list = todo_list_repository.list_all.first
+      created_todo_list.should_not be_nil
+      created_todo_list.id.should_not be_nil
+    end
+
+    it 'stores the todo list with any associated todos and gives each their own identity' do
+      # This essentially acts like an aggregate object using the Domain Driven Design terminology
+      todo = Todo.new(title: 'Todo 1')
+      todo_list = TodoList.new(title: 'Todo List 1', todos: [todo])
+
+      todo_list_repository = MemoryTodoListRepository.new(true)
+
+      todo_list_repository.create todo_list
+
+      created_todo_list = todo_list_repository.list_all.first
+
+      created_todo_list.should_not be_nil
+      all_todos_have_ids = created_todo_list.todos.all? { |todo| !todo.id.nil? }
+      all_todos_have_ids.should be_true
+    end
+  end
 end
