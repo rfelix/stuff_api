@@ -22,6 +22,16 @@ module CollectionJSON
     def items
       collection['items'].map { |item| Item.new item }
     end
+
+    def build_template(fields = {})
+      result = {'template' => {'data' => []}}
+      collection['template']['data'].each do |field|
+        filled_field = field.dup
+        filled_field['value'] = fields[field['name']] if fields.has_key?(field['name'])
+        result['template']['data'] << filled_field
+      end
+      result
+    end
   end
 
   class Item

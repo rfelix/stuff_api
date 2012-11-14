@@ -56,6 +56,20 @@ describe CollectionJSON do
         end
       end
     end
+
+    context 'when parsing collection template' do
+      it 'can build the template by filling in the fields' do
+        data = collection.build_template('dfield' => 'New Value')
+
+        dfield = data['template']['data'].find { |data_field| data_field['name'] == 'dfield' }
+        dfield.should_not be_nil
+        dfield['value'].should == 'New Value'
+
+        dfield2 = data['template']['data'].find { |data_field| data_field['name'] == 'dfield2' }
+        dfield2.should_not be_nil
+        dfield2['value'].should == 'dfield_value2'
+      end
+    end
   end
 
   def sample_collection_json
@@ -77,7 +91,13 @@ describe CollectionJSON do
           {"rel": "item-link", "href": "http://item/link", "prompt": "Item Link"}
         ]
       }
-    ]
+    ],
+    "template": {
+      "data": [
+        {"name": "dfield", "value": "dfield_value", "prompt": "DField"},
+        {"name": "dfield2", "value": "dfield_value2", "prompt": "DField2"}
+      ]
+    }
   }
 }
     json
