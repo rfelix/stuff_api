@@ -7,6 +7,9 @@ gem 'puma'
 gem 'rake'
 gem 'sinatra-flash', :require => 'sinatra/flash'
 
+# For bin client
+gem 'httparty'
+
 # Component requirements
 gem 'erubis', "~> 2.7.0"
 
