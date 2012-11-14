@@ -4,5 +4,12 @@
     {"name": "title", "value": "<%= todo_item.title %>", "prompt": "Title"},
     {"name": "notes", "value": "<%= todo_item.notes %>", "prompt": "Notes"},
     {"name": "dueDate", "value": "<%= todo_item.due_date %>", "prompt": "Due Date"}
+  ],
+  "links": [
+    {
+      "rel": "move",
+      "href": "<%= uri(url_for(:move_todo, list_id: todo_item.list_id, id: todo_item.id)) %>",
+      "prompt": "Move To"
+    }
   ]
 }

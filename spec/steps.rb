@@ -21,6 +21,27 @@ def api_root_is_visited
 end
 
 def item_href_is_visited(match_options = {})
+  matched_item = find_item(match_options)
+  matched_item.href.should_not be_empty
+
+  get matched_item.href
+end
+
+def item_link_is_visited(rel_name, match_options = {})
+  matched_item = find_item(match_options)
+
+  link = matched_item.links[rel_name]
+  link.should_not be_nil
+
+  get link.href
+end
+### Response parsing steps
+
+def parsed_collection
+  CollectionJSON.parse(last_response.body)
+end
+
+def find_item(match_options = {})
   if match_options.empty?
     matched_item = parsed_collection.items.first
   else
@@ -29,14 +50,7 @@ def item_href_is_visited(match_options = {})
     }
   end
   matched_item.should_not be_nil
-  matched_item.href.should_not be_empty
-  get matched_item.href
-end
-
-### Response parsing steps
-
-def parsed_collection
-  CollectionJSON.parse(last_response.body)
+  matched_item
 end
 
 ### Creation steps

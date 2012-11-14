@@ -28,6 +28,15 @@ StuffServer.controller provides: :json do
     render 'todo/individual', locals: {todo_item: TodoPresenter.new(todo_item, todo_list_id)}
   end
 
+  get :move_todo, map: '/list/:list_id/todo/:id/move' do
+    todo_list_lister = TodoListLister.new(todo_list_repository: todo_list_repository)
+    todo_list_id = params[:list_id].to_i
+    todo_id = params[:id].to_i
+    todo_lists = todo_list_lister.list_move_destinations(@user, todo_list_id, todo_id)
+
+    render 'collection', locals: {list_items: todo_lists}
+  end
+
   helpers do
     def todo_list_repository
       StuffServer.in_memory_todo_list_repository
