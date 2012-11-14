@@ -6,6 +6,13 @@
         partial 'todo/todo_item', object: todo_item
       }.join(',')
     %>],
+    "links": [
+      {
+        "rel": "lists",
+        "href": "<%= uri(url_for(:root)) %>",
+        "prompt": "All Lists"
+      }
+    ],
     "template": {
       "data": [
         {"name": "title", "value": "", "prompt": "Title"},

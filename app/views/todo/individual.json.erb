@@ -3,6 +3,13 @@
     "href": "<%= uri(url_for(:todo_item, list_id: todo_item.list_id, id: todo_item.id)) %>",
     "items": [<%=
       partial 'todo/todo_item', object: todo_item
-    %>]
+    %>],
+    "links": [
+      {
+        "rel": "list",
+        "href": "<%= uri(url_for(:todo_list, id: todo_item.list_id)) %>",
+        "prompt": "List"
+      }
+    ]
   }
 }

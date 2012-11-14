@@ -14,6 +14,12 @@
           "prompt": "Move To"
         }
       ]
-    }
+    },
+    "links": [
+      {
+        "rel": "todo",
+        "href": "<%= uri(url_for(:todo_item, list_id: move_todo_lists.todo_list_id, id: move_todo_lists.todo_id)) %>"
+      }
+    ]
   }
 }
