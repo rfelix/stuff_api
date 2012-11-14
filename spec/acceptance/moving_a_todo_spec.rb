@@ -43,12 +43,4 @@ describe 'When moving a Todo' do
     todo_list.should_not be_nil
     todo_list.todos.map(&:title)
   end
-
-  def redirects_to_new_todo_location
-    last_response.status.should eq(302)
-    new_location = last_response.headers['Location']
-
-    get new_location
-    parsed_collection.items.first.data['title'].value.should eq(@existing_todos.first.title)
-  end
 end

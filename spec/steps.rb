@@ -35,6 +35,7 @@ def item_link_is_visited(rel_name, match_options = {})
 
   get link.href
 end
+
 ### Response parsing steps
 
 def parsed_collection
@@ -51,6 +52,14 @@ def find_item(match_options = {})
   end
   matched_item.should_not be_nil
   matched_item
+end
+
+def redirects_to_new_todo_location
+  last_response.status.should eq(302)
+  new_location = last_response.headers['Location']
+
+  get new_location
+  parsed_collection.items.first.data['title'].value.should eq(@existing_todos.first.title)
 end
 
 ### Creation steps

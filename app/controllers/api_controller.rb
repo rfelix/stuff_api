@@ -19,6 +19,17 @@ StuffServer.controller provides: :json do
     render 'list/collection', locals: {todo_list_collection: TodoListCollectionPresenter.new(todo_list_id, todo_items)}
   end
 
+  post :new_todo, map: '/list/:id' do
+    json = JSON.parse(request.body.read)
+    todo_creator = TodoCreator.new(todo_list_repository: todo_list_repository)
+    todo_list_id = params[:id].to_i
+
+    todo_data = parse_collection_template_data(json)
+    new_todo_id = todo_creator.create_todo(todo_list_id: todo_list_id, data: todo_data, user: @user)
+
+    redirect url_for(:todo_item, list_id: todo_list_id, id: new_todo_id)
+  end
+
   get :todo_item, map: '/list/:list_id/todo/:id' do
     todo_lister = TodoLister.new(todo_list_repository: todo_list_repository)
     todo_list_id = params[:list_id].to_i
@@ -58,6 +69,24 @@ StuffServer.controller provides: :json do
   helpers do
     def todo_list_repository
       StuffServer.in_memory_todo_list_repository
+    end
+
+    def parse_collection_template_data(json)
+      result = {}
+      json['template']['data'].each do |data|
+        next if data['value'].nil?
+        result[camel_to_snake_case(data['name'])] = data['value']
+      end
+      result
+    end
+
+    def camel_to_snake_case(camel_string)
+      # http://stackoverflow.com/questions/1509915/converting-camel-case-to-underscore-case-in-ruby
+      camel_string.gsub(/::/, '/').
+        gsub(/([A-Z]+)([A-Z][a-z])/,'\1_\2').
+        gsub(/([a-z\d])([A-Z])/,'\1_\2').
+        tr("-", "_").
+        downcase
     end
   end
 end

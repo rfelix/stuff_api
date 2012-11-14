@@ -39,7 +39,7 @@ class MemoryTodoListRepository
     # This needs to be done because this is a memory repository. If it were
     # persisted this step would be done before booting up the application
     %w(Inbox Today Next).each do |title|
-      store TodoList.new(title: title).tap { |l| l.add Todo.new(title: "Todo in #{title}") }
+      store TodoList.new(title: title)
     end
   end
 end

@@ -5,6 +5,14 @@
       todo_list_collection.todos.map { |todo_item|
         partial 'todo/todo_item', object: todo_item
       }.join(',')
-    %>]
+    %>],
+    "template": {
+      "data": [
+        {"name": "title", "value": "", "prompt": "Title"},
+        {"name": "notes", "value": "", "prompt": "Notes"},
+        {"name": "dueDate", "value": "", "prompt": "Due Date"},
+        {"name": "completed", "value": false, "prompt": "Completed"}
+      ]
+    }
   }
 }
